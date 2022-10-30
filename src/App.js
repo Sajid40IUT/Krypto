@@ -1,19 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { Layout, Typography, Space } from 'antd';
 
-
+import { Register } from './components/Register/Register.jsx';
+import { Login } from './components/Login/Login.jsx';
 import { Navbar, Homepage, Exchanges, News, CryptoDetails, Cryptocurrencies } from './components';
-import './App.css'
+import './App.css';
+
 
 const App = () => {
+
+  const [currentForm, setCurrentForm] = useState('login');
+  const [ logstate, setLogstate ] = useState('no');
+
+  const toggleForm = (formName) => {
+    setCurrentForm(formName);
+  }
+
+  const toggleLogstate = (state) => {
+    setLogstate(state);
+  }
+
+
   return (
     <div>
+      { logstate == 'yes' ?
       <div className='app'>
+
         <div className='navbar'>
             <Navbar />
         </div>
-        
         <div className='main'>
             <Layout>
                 <div className='routes'>
@@ -26,7 +42,6 @@ const App = () => {
                     </Routes>
                 </div>
             </Layout>
-        
         
         <div className='footer'>
             <Typography.Title level={5} style={{ color: 'white', textAlign: 'center' }}>Copyright © 2022_ 
@@ -41,12 +56,16 @@ const App = () => {
             <Link to="/news">News</Link>
             </Space>
         </div>
-      
-        </div>
-      </div>
-      
+       </div> 
+      </div> 
+      : (
+        currentForm == 'login' ? 
+        <Login onFormSwitch={toggleForm} onRouteChange={toggleLogstate}/> :
+        <Register onFormSwitch={toggleForm} onRouteChange={toggleLogstate}/>
+      )
+    }
     </div>
   );
 }
 
-export default App
+export default App;
